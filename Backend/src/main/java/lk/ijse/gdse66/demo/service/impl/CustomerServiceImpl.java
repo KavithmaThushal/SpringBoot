@@ -19,7 +19,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     public CustomerDTO save(CustomerDTO dto) {
         Customer customer = mapper.map(dto, Customer.class);
-        Customer savedCustomer = repository.save(customer);
-        return mapper.map(savedCustomer, CustomerDTO.class);
+        Customer savedData = repository.save(customer);
+        return mapper.map(savedData, CustomerDTO.class);
     }
 }
