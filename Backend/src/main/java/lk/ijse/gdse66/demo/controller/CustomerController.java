@@ -1,5 +1,6 @@
 package lk.ijse.gdse66.demo.controller;
 
+import jakarta.validation.Valid;
 import lk.ijse.gdse66.demo.dto.CustomerDTO;
 import lk.ijse.gdse66.demo.service.CustomerService;
 import lk.ijse.gdse66.demo.util.ResponseUtil;
@@ -15,7 +16,7 @@ public class CustomerController {
     private CustomerService service;
 
     @PostMapping
-    public ResponseUtil save(@RequestBody CustomerDTO dto) {
+    public ResponseUtil save(@Valid @RequestBody CustomerDTO dto) {
         CustomerDTO data = service.save(dto);
         return new ResponseUtil("Customer saved successfully!", data);
     }
