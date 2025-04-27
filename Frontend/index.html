@@ -32,8 +32,10 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@latest"></script>
 <script>
     $(document).ready(function () {
+
         $("#customerForm").submit(function (event) {
             event.preventDefault();
 
@@ -49,15 +51,43 @@
                 contentType: "application/json",
                 data: JSON.stringify(customerData),
                 success: function (response) {
-                    alert(response.message);
+                    successNotification(response.message);
                     $("#customerForm")[0].reset();
                 },
                 error: function (error) {
-                    alert(error.responseJSON.message);
+                    errorNotification(error.responseJSON.message);
                     $("#customerForm")[0].reset();
                 }
             });
         });
+
+        function successNotification(message) {
+            Swal.fire({
+                text: message,
+                icon: 'success',
+                background: '#d4edda',
+                color: '#155724',
+                confirmButtonColor: '#28a745',
+                timer: 5000,
+                timerProgressBar: true,
+                position: 'top-end',
+                toast: true
+            });
+        }
+
+        function errorNotification(message) {
+            Swal.fire({
+                text: message,
+                icon: 'error',
+                background: '#f8d7da',
+                color: '#721c24',
+                confirmButtonColor: '#dc3545',
+                timer: 5000,
+                timerProgressBar: true,
+                position: 'top-end',
+                toast: true
+            });
+        }
     });
 </script>
 </body>
