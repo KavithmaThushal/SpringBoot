@@ -4,28 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css">
-    <title>Customer Management</title>
+    <title>Item Management</title>
 </head>
 
 <body>
 <div class="d-flex justify-content-center align-items-center vh-100">
-    <div class="col-5 bg-light shadow rounded p-5">
-        <form id="customerForm">
-            <h1 class="text-center mb-4">Customer Management</h1>
+    <div class="col-5 shadow rounded p-5">
+        <form id="itemForm">
+            <h1 class="text-center mb-4">Item Management</h1>
             <div class="mb-3">
-                <label for="name">Name</label>
-                <input id="name" name="name" type="text" class="form-control" required>
+                <label for="description">Description</label>
+                <input id="description" name="description" type="text" class="form-control" required>
             </div>
             <div class="mb-3">
-                <label for="address">Address</label>
-                <input id="address" name="address" type="text" class="form-control" required>
+                <label for="quantity">Quantity</label>
+                <input id="quantity" name="quantity" type="number" class="form-control" min="1" required>
             </div>
             <div class="mb-4">
-                <label for="salary">Salary</label>
-                <input id="salary" name="salary" type="number" class="form-control" step="0.01" required>
+                <label for="unitPrice">Unit Price</label>
+                <input id="unitPrice" name="unitPrice" type="number" class="form-control" step="0.01" min="1000"
+                       required>
             </div>
             <div class="text-center">
-                <button type="submit" class="btn btn-primary px-5">Save</button>
+                <button type="submit" class="btn btn-primary px-5">Add</button>
             </div>
         </form>
     </div>
@@ -36,27 +37,28 @@
 <script>
     $(document).ready(function () {
 
-        $("#customerForm").submit(function (event) {
+        $("#itemForm").submit(function (event) {
             event.preventDefault();
 
-            var customerData = {
-                name: $("#name").val(),
-                address: $("#address").val(),
-                salary: $("#salary").val()
+            var itemData = {
+                code: $("#code").val(),
+                description: $("#description").val(),
+                quantity: $("#quantity").val(),
+                unitPrice: $("#unitPrice").val()
             }
 
             $.ajax({
-                url: "http://localhost:8080/api/v1/customer",
+                url: "http://localhost:8080/api/v1/item",
                 type: "POST",
                 contentType: "application/json",
-                data: JSON.stringify(customerData),
+                data: JSON.stringify(itemData),
                 success: function (response) {
                     successNotification(response.message);
-                    $("#customerForm")[0].reset();
+                    $("#itemForm")[0].reset();
                 },
                 error: function (error) {
                     errorNotification(error.responseJSON.message);
-                    $("#customerForm")[0].reset();
+                    $("#itemForm")[0].reset();
                 }
             });
         });
