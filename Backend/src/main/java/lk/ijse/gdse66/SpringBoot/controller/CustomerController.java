@@ -1,9 +1,9 @@
-package lk.ijse.gdse66.demo.controller;
+package lk.ijse.gdse66.SpringBoot.controller;
 
 import jakarta.validation.Valid;
-import lk.ijse.gdse66.demo.dto.CustomerDTO;
-import lk.ijse.gdse66.demo.service.CustomerService;
-import lk.ijse.gdse66.demo.util.ResponseUtil;
+import lk.ijse.gdse66.SpringBoot.dto.CustomerDTO;
+import lk.ijse.gdse66.SpringBoot.service.CustomerService;
+import lk.ijse.gdse66.SpringBoot.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

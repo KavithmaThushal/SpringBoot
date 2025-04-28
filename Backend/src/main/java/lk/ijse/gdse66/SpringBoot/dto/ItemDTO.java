@@ -1,4 +1,4 @@
-package lk.ijse.gdse66.demo.dto;
+package lk.ijse.gdse66.SpringBoot.dto;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Pattern;

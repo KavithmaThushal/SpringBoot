@@ -1,4 +1,4 @@
-package lk.ijse.gdse66.demo.entity;
+package lk.ijse.gdse66.SpringBoot.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

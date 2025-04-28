@@ -1,6 +1,6 @@
-package lk.ijse.gdse66.demo.repository;
+package lk.ijse.gdse66.SpringBoot.repository;
 
-import lk.ijse.gdse66.demo.entity.Item;
+import lk.ijse.gdse66.SpringBoot.entity.Item;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ItemRepository extends JpaRepository<Item, Integer> {

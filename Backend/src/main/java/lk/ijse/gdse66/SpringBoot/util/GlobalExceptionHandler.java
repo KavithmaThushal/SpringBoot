@@ -1,4 +1,4 @@
-package lk.ijse.gdse66.demo.util;
+package lk.ijse.gdse66.SpringBoot.util;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;

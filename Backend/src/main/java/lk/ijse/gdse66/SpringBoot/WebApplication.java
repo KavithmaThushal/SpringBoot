@@ -1,4 +1,4 @@
-package lk.ijse.gdse66.demo;
+package lk.ijse.gdse66.SpringBoot;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;

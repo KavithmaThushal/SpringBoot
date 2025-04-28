@@ -1,4 +1,4 @@
-package lk.ijse.gdse66.demo;
+package lk.ijse.gdse66.SpringBoot;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

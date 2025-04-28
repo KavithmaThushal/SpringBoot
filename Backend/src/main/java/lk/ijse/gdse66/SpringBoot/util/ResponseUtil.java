@@ -1,4 +1,4 @@
-package lk.ijse.gdse66.demo.util;
+package lk.ijse.gdse66.SpringBoot.util;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

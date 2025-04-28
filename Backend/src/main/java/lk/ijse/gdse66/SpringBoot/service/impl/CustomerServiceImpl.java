@@ -1,9 +1,9 @@
-package lk.ijse.gdse66.demo.service.impl;
+package lk.ijse.gdse66.SpringBoot.service.impl;
 
-import lk.ijse.gdse66.demo.dto.CustomerDTO;
-import lk.ijse.gdse66.demo.entity.Customer;
-import lk.ijse.gdse66.demo.repository.CustomerRepository;
-import lk.ijse.gdse66.demo.service.CustomerService;
+import lk.ijse.gdse66.SpringBoot.dto.CustomerDTO;
+import lk.ijse.gdse66.SpringBoot.entity.Customer;
+import lk.ijse.gdse66.SpringBoot.repository.CustomerRepository;
+import lk.ijse.gdse66.SpringBoot.service.CustomerService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
