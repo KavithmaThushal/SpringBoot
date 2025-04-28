@@ -23,9 +23,9 @@ public class OrderDetails {
 
     @ManyToOne
     @NotNull
-    private Orders order;
+    private Item item;
 
     @ManyToOne
     @NotNull
-    private Item item;
+    private Orders order;
 }
