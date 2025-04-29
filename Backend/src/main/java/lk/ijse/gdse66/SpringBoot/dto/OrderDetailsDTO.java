@@ -1,0 +1,17 @@
+package lk.ijse.gdse66.SpringBoot.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+public class OrderDetailsDTO {
+    private int id;
+    private int quantity;
+    private double unitPrice;
+    private double totalPrice;
+    private int itemId;
+    private int orderId;
+}
