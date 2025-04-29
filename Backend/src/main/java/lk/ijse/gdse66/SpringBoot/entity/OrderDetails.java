@@ -19,7 +19,7 @@ public class OrderDetails {
 
     private int quantity;
     private double unitPrice;
-    private double total;
+    private double totalPrice;
 
     @ManyToOne
     @NotNull
