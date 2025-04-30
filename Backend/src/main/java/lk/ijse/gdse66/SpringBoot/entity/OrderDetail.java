@@ -6,26 +6,26 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-import java.util.List;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 
 @Entity
-public class Orders {
+public class OrderDetail {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private LocalDate date;
+    private int quantity;
+    private double unitPrice;
+    private double totalPrice;
 
     @ManyToOne
     @NotNull
-    private Customer customer;
+    private Item item;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<OrderDetails> orderDetails;
+    @ManyToOne
+    @NotNull
+    private Order order;
 }
