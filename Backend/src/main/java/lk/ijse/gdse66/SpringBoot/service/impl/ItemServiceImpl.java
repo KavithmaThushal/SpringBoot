@@ -30,6 +30,13 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    public ItemDTO getById(Integer id) {
+        Item item = itemRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Item not found with ID: " + id));
+        return modelMapper.map(item, ItemDTO.class);
+    }
+
+    @Override
     public List<ItemDTO> getAll() {
         List<Item> items = itemRepository.findAll();
         return items.stream()

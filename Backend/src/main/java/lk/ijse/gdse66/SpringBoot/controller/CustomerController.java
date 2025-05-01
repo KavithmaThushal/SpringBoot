@@ -23,7 +23,13 @@ public class CustomerController {
         return new ResponseUtil("Customer saved successfully!", data);
     }
 
-    @GetMapping("/getAll")
+    @GetMapping("/{id}")
+    public ResponseUtil getById(@PathVariable Integer id) {
+        CustomerDTO data = customerService.getById(id);
+        return new ResponseUtil("Customer fetched successfully!", data);
+    }
+
+    @GetMapping
     public ResponseUtil getAll() {
         List<CustomerDTO> data = customerService.getAll();
         return new ResponseUtil("Get all customers successfully!", data);
