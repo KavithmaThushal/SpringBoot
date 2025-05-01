@@ -39,8 +39,8 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(() -> new RuntimeException("Customer not found!"));
 
         Order order = new Order();
-        order.setDate(dto.getDate());
         order.setCustomer(customer);
+        order.setDate(dto.getDate());
 
         ArrayList<OrderDetail> orderDetailList = new ArrayList<>();
 
@@ -64,8 +64,8 @@ public class OrderServiceImpl implements OrderService {
 
         OrderDTO placedOrderDTO = new OrderDTO();
         placedOrderDTO.setId(placedOrder.getId());
-        placedOrderDTO.setDate(placedOrder.getDate());
         placedOrderDTO.setCustomerId(customer.getId());
+        placedOrderDTO.setDate(placedOrder.getDate());
 
         ArrayList<OrderDetailDTO> orderDetailDTOList = new ArrayList<>();
         for (OrderDetail itemDetail : placedOrder.getOrderDetails()) {

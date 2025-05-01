@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 public class OrderDTO {
     private int id;
-    private LocalDate date;
     private int customerId;
+    private LocalDate date;
     private List<OrderDetailDTO> orderDetails;
 }

@@ -17,13 +17,13 @@ public class OrderDetail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private int quantity;
-    private double unitPrice;
-    private double totalPrice;
-
     @ManyToOne
     @NotNull
     private Item item;
+
+    private int quantity;
+    private double unitPrice;
+    private double totalPrice;
 
     @ManyToOne
     @NotNull
