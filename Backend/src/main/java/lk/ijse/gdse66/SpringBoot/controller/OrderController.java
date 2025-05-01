@@ -1,6 +1,5 @@
 package lk.ijse.gdse66.SpringBoot.controller;
 
-import jakarta.validation.Valid;
 import lk.ijse.gdse66.SpringBoot.dto.OrderDTO;
 import lk.ijse.gdse66.SpringBoot.service.OrderService;
 import lk.ijse.gdse66.SpringBoot.util.ResponseUtil;
@@ -16,7 +15,7 @@ public class OrderController {
     private OrderService service;
 
     @PostMapping
-    public ResponseUtil placeOrder(@Valid @RequestBody OrderDTO dto) {
+    public ResponseUtil placeOrder(@RequestBody OrderDTO dto) {
         OrderDTO data = service.placeOrder(dto);
         return new ResponseUtil("Order placed successfully!", data);
     }
