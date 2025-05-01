@@ -67,15 +67,15 @@ public class OrderServiceImpl implements OrderService {
         placedOrderDTO.setDate(placedOrder.getDate());
         placedOrderDTO.setCustomerId(customer.getId());
 
-        ArrayList<OrderDetailDTO> orderDetailDTOlist = new ArrayList<>();
+        ArrayList<OrderDetailDTO> orderDetailDTOList = new ArrayList<>();
         for (OrderDetail itemDetail : placedOrder.getOrderDetails()) {
             OrderDetailDTO itemDetailDTO = mapper.map(itemDetail, OrderDetailDTO.class);
             itemDetailDTO.setItemId(itemDetail.getItem().getId());
             itemDetailDTO.setOrderId(placedOrder.getId());
-            orderDetailDTOlist.add(itemDetailDTO);
+            orderDetailDTOList.add(itemDetailDTO);
         }
 
-        placedOrderDTO.setOrderDetails(orderDetailDTOlist);
+        placedOrderDTO.setOrderDetails(orderDetailDTOList);
 
         return placedOrderDTO;
     }
