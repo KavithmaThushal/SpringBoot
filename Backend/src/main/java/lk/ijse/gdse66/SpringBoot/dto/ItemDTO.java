@@ -19,6 +19,6 @@ public class ItemDTO {
     @Min(value = 1, message = "Quantity must be at least 1 digit!")
     private int quantity;
 
-    @Min(value = 1000, message = "Unit Price must be at least 4 digits!")
+    @Min(value = 10, message = "Unit Price must be at least 2 digits!")
     private double unitPrice;
 }
