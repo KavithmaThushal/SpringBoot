@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional
@@ -43,7 +44,7 @@ public class OrderServiceImpl implements OrderService {
         order.setCustomer(customer);
         order.setDate(dto.getDate());
 
-        ArrayList<OrderDetail> orderDetailList = new ArrayList<>();
+        List<OrderDetail> orderDetailList = new ArrayList<>();
 
         for (OrderDetailDTO items : dto.getOrderDetails()) {
             Item item = itemRepository.findById(items.getItemId())
@@ -74,7 +75,7 @@ public class OrderServiceImpl implements OrderService {
         placedOrderDTO.setCustomerId(customer.getId());
         placedOrderDTO.setDate(placedOrder.getDate());
 
-        ArrayList<OrderDetailDTO> orderDetailDTOList = new ArrayList<>();
+        List<OrderDetailDTO> orderDetailDTOList = new ArrayList<>();
         for (OrderDetail itemDetail : placedOrder.getOrderDetails()) {
             OrderDetailDTO itemDetailDTO = modelMapper.map(itemDetail, OrderDetailDTO.class);
             itemDetailDTO.setItemId(itemDetail.getItem().getId());
