@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -41,7 +40,7 @@ public class OrderServiceImpl implements OrderService {
         order.setDate(dto.getDate());
         order.setCustomer(customer);
 
-        ArrayList<OrderDetail> orderDetailsList = new ArrayList<>();
+        ArrayList<OrderDetail> orderDetailList = new ArrayList<>();
 
         for (OrderDetailDTO items : dto.getOrderDetails()) {
             Item item = itemRepository.findById(items.getItemId())
@@ -54,28 +53,28 @@ public class OrderServiceImpl implements OrderService {
             orderDetail.setTotalPrice(items.getTotalPrice());
             orderDetail.setOrder(order);
 
-            orderDetailsList.add(orderDetail);
+            orderDetailList.add(orderDetail);
         }
 
-        order.setOrderDetails(orderDetailsList);
+        order.setOrderDetails(orderDetailList);
 
         Order placedOrder = orderRepository.save(order);
 
-        OrderDTO savedDTO = new OrderDTO();
-        savedDTO.setId(placedOrder.getId());
-        savedDTO.setDate(placedOrder.getDate());
-        savedDTO.setCustomerId(customer.getId());
+        OrderDTO placedOrderDTO = new OrderDTO();
+        placedOrderDTO.setId(placedOrder.getId());
+        placedOrderDTO.setDate(placedOrder.getDate());
+        placedOrderDTO.setCustomerId(customer.getId());
 
-        List<OrderDetailDTO> itemDetails = new ArrayList<>();
-        for (OrderDetail detail : placedOrder.getOrderDetails()) {
-            OrderDetailDTO detailDTO = mapper.map(detail, OrderDetailDTO.class);
-            detailDTO.setItemId(detail.getItem().getId());
-            detailDTO.setOrderId(placedOrder.getId());
-            itemDetails.add(detailDTO);
+        ArrayList<OrderDetailDTO> orderDetailDTOlist = new ArrayList<>();
+        for (OrderDetail itemDetail : placedOrder.getOrderDetails()) {
+            OrderDetailDTO itemDetailDTO = mapper.map(itemDetail, OrderDetailDTO.class);
+            itemDetailDTO.setItemId(itemDetail.getItem().getId());
+            itemDetailDTO.setOrderId(placedOrder.getId());
+            orderDetailDTOlist.add(itemDetailDTO);
         }
 
-        savedDTO.setOrderDetails(itemDetails);
+        placedOrderDTO.setOrderDetails(orderDetailDTOlist);
 
-        return savedDTO;
+        return placedOrderDTO;
     }
 }
