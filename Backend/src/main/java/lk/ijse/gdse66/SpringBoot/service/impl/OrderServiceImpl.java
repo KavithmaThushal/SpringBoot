@@ -48,6 +48,12 @@ public class OrderServiceImpl implements OrderService {
             Item item = itemRepository.findById(items.getItemId())
                     .orElseThrow(() -> new RuntimeException("Item not found!"));
 
+            if (item.getQuantity() < items.getQuantity()) {
+                throw new RuntimeException("Insufficient stock for item: " + item.getDescription());
+            }
+            item.setQuantity(item.getQuantity() - items.getQuantity());
+            itemRepository.save(item);
+
             OrderDetail orderDetail = new OrderDetail();
             orderDetail.setItem(item);
             orderDetail.setQuantity(items.getQuantity());
