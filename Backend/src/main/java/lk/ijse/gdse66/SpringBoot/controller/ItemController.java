@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.*;
 public class ItemController {
 
     @Autowired
-    private ItemService service;
+    private ItemService itemService;
 
     @PostMapping
     public ResponseUtil add(@Valid @RequestBody ItemDTO dto) {
-        ItemDTO data = service.add(dto);
+        ItemDTO data = itemService.add(dto);
         return new ResponseUtil("Item added successfully!", data);
     }
 }

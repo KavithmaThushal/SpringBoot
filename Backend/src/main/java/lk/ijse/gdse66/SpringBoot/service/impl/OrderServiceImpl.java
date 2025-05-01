@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class OrderServiceImpl implements OrderService {
 
     @Autowired
-    private ModelMapper mapper;
+    private ModelMapper modelMapper;
 
     @Autowired
     private CustomerRepository customerRepository;
@@ -33,6 +33,7 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderRepository orderRepository;
 
+    @Override
     public OrderDTO placeOrder(OrderDTO dto) {
 
         Customer customer = customerRepository.findById(dto.getCustomerId())
@@ -75,7 +76,7 @@ public class OrderServiceImpl implements OrderService {
 
         ArrayList<OrderDetailDTO> orderDetailDTOList = new ArrayList<>();
         for (OrderDetail itemDetail : placedOrder.getOrderDetails()) {
-            OrderDetailDTO itemDetailDTO = mapper.map(itemDetail, OrderDetailDTO.class);
+            OrderDetailDTO itemDetailDTO = modelMapper.map(itemDetail, OrderDetailDTO.class);
             itemDetailDTO.setItemId(itemDetail.getItem().getId());
             itemDetailDTO.setOrderId(placedOrder.getId());
             orderDetailDTOList.add(itemDetailDTO);

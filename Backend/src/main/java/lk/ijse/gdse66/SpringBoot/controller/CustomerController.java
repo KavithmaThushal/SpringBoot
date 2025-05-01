@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.*;
 public class CustomerController {
 
     @Autowired
-    private CustomerService service;
+    private CustomerService customerService;
 
     @PostMapping
     public ResponseUtil save(@Valid @RequestBody CustomerDTO dto) {
-        CustomerDTO data = service.save(dto);
+        CustomerDTO data = customerService.save(dto);
         return new ResponseUtil("Customer saved successfully!", data);
     }
 }

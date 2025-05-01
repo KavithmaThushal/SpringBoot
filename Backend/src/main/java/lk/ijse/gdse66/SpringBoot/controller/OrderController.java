@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.*;
 public class OrderController {
 
     @Autowired
-    private OrderService service;
+    private OrderService orderService;
 
     @PostMapping
     public ResponseUtil placeOrder(@RequestBody OrderDTO dto) {
-        OrderDTO data = service.placeOrder(dto);
+        OrderDTO data = orderService.placeOrder(dto);
         return new ResponseUtil("Order placed successfully!", data);
     }
 }

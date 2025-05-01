@@ -12,14 +12,15 @@ import org.springframework.stereotype.Service;
 public class ItemServiceImpl implements ItemService {
 
     @Autowired
-    private ModelMapper mapper;
+    private ModelMapper modelMapper;
 
     @Autowired
-    private ItemRepository repository;
+    private ItemRepository itemRepository;
 
+    @Override
     public ItemDTO add(ItemDTO dto) {
-        Item item = mapper.map(dto, Item.class);
-        Item addedData = repository.save(item);
-        return mapper.map(addedData, ItemDTO.class);
+        Item item = modelMapper.map(dto, Item.class);
+        Item addedData = itemRepository.save(item);
+        return modelMapper.map(addedData, ItemDTO.class);
     }
 }

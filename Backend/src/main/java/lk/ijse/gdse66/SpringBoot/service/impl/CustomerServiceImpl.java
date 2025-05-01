@@ -12,14 +12,15 @@ import org.springframework.stereotype.Service;
 public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
-    private ModelMapper mapper;
+    private ModelMapper modelMapper;
 
     @Autowired
-    private CustomerRepository repository;
+    private CustomerRepository customerRepository;
 
+    @Override
     public CustomerDTO save(CustomerDTO dto) {
-        Customer customer = mapper.map(dto, Customer.class);
-        Customer savedData = repository.save(customer);
-        return mapper.map(savedData, CustomerDTO.class);
+        Customer customer = modelMapper.map(dto, Customer.class);
+        Customer savedData = customerRepository.save(customer);
+        return modelMapper.map(savedData, CustomerDTO.class);
     }
 }
