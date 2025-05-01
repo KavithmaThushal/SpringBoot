@@ -28,7 +28,7 @@
                     <a class="nav-link active" href="item.html">Item</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="order.html">Place Order</a>
+                    <a class="nav-link active" href="order.html">PlaceOrder</a>
                 </li>
             </ul>
         </div>
@@ -37,28 +37,28 @@
 
 <!-- Order Form -->
 <div class="d-flex justify-content-center align-items-center vh-100">
-    <div class="col-10 col-md-8 col-lg-6 shadow p-5 rounded">
-        <h2 class="mb-4 text-center">Place Order</h2>
+    <div class="col-8 shadow rounded p-5">
         <form id="orderForm">
+            <h2 class="mb-4 text-center">Place Order</h2>
             <div class="mb-3">
-                <label for="customerId">Select Customer</label>
+                <label for="customerId" class="form-label">Select Customer</label>
                 <select id="customerId" class="form-select" required></select>
             </div>
-            <div class="mb-3">
-                <label for="orderDate">Order Date</label>
-                <input id="orderDate" type="date" class="form-control" required>
+            <div class="mb-4">
+                <label for="orderDate" class="form-label">Order Date</label>
+                <input type="date" id="orderDate" class="form-control" required>
             </div>
             <div class="mb-3">
-                <label>Order Items</label>
+                <label class="form-label">Order Items</label>
                 <table class="table table-bordered">
-                    <thead>
+                    <thead class="table-light">
                     <tr>
                         <th>Item</th>
-                        <th>Qty</th>
+                        <th>Quantity</th>
                         <th>Unit Price</th>
                         <th>Total</th>
                         <th>
-                            <button type="button" class="btn btn-sm btn-primary" id="addItem">+ Add</button>
+                            <button type="button" id="addItem" class="btn btn-sm btn-success">+ Add</button>
                         </th>
                     </tr>
                     </thead>
@@ -66,7 +66,7 @@
                 </table>
             </div>
             <div class="text-end mb-3">
-                <strong>Total: Rs. <span id="grandTotal">0.00</span></strong>
+                <h5>Total: Rs. <span id="grandTotal">0.00</span></h5>
             </div>
             <div class="text-center">
                 <button type="submit" class="btn btn-primary px-5">Place Order</button>
@@ -82,86 +82,87 @@
     $(document).ready(function () {
         let itemList = [];
 
-        loadCustomers();
-        loadItems();
+        getAllCustomers();
+        getAllItems();
+        setTodayDate();
 
-        $("#addItem").click(function () {
-            $("#orderItems").append(generateRow());
-        });
+        $('#addItem').click(() => $('#orderItems').append(generateRow()));
 
-        $("#orderItems").on("input", ".quantity, .unitPrice", updateTotals);
+        $('#orderItems').on('input', '.quantity, .unitPrice', updateTotals);
 
-        $("#orderItems").on("click", ".remove-row", function () {
-            $(this).closest("tr").remove();
+        $('#orderItems').on('click', '.remove-row', function () {
+            $(this).closest('tr').remove();
             updateTotals();
         });
 
-        $("#orderForm").submit(function (event) {
-            event.preventDefault();
+        $('#orderForm').submit(function (e) {
+            e.preventDefault();
 
             const orderDetails = [];
-            let isValid = true;
+            let valid = true;
 
-            $("#orderItems tr").each(function () {
-                const itemId = $(this).find(".itemSelect").val();
-                const quantity = parseInt($(this).find(".quantity").val());
-                const unitPrice = parseFloat($(this).find(".unitPrice").val());
-                const totalPrice = quantity * unitPrice;
+            $('#orderItems tr').each(function () {
+                const itemId = $(this).find('.itemSelect').val();
+                const quantity = parseInt($(this).find('.quantity').val());
+                const unitPrice = parseFloat($(this).find('.unitPrice').val());
 
                 if (!itemId || quantity <= 0 || unitPrice <= 0) {
-                    errorNotification("Please fill all item fields correctly.");
-                    isValid = false;
-                    return false; // break .each loop
+                    errorNotification('Please enter valid item details!');
+                    valid = false;
+                    return false;
                 }
 
-                orderDetails.push({ itemId, quantity, unitPrice, totalPrice });
+                orderDetails.push({
+                    itemId,
+                    quantity,
+                    unitPrice,
+                    totalPrice: quantity * unitPrice
+                });
             });
 
-            if (!isValid) return;
+            if (!valid || orderDetails.length === 0) return;
 
             const orderData = {
-                customerId: $("#customerId").val(),
-                date: $("#orderDate").val(),
-                orderDetails: orderDetails
+                customerId: $('#customerId').val(),
+                date: $('#orderDate').val(),
+                orderDetails
             };
 
             $.ajax({
-                url: "http://localhost:8080/api/v1/order",
-                type: "POST",
-                contentType: "application/json",
+                url: 'http://localhost:8080/api/v1/order',
+                type: 'POST',
+                contentType: 'application/json',
                 data: JSON.stringify(orderData),
                 success: function (response) {
-                    successNotification("Order placed successfully!");
-                    $("#orderForm")[0].reset();
-                    $("#orderItems").empty();
-                    $("#grandTotal").text("0.00");
+                    successNotification(response.message);
+                    $('#orderForm')[0].reset();
+                    $('#orderItems').empty();
+                    $('#grandTotal').text('0.00');
+                    setTodayDate();
                 },
                 error: function (error) {
-                    const message = error.responseJSON?.message || "Something went wrong.";
-                    errorNotification(message);
+                    const msg = error.responseJSON?.message || 'Order failed. Try again.';
+                    errorNotification(msg);
                 }
             });
         });
 
-        function loadCustomers() {
-            $.get("http://localhost:8080/api/v1/customer", function (customers) {
-                customers.forEach(function (c) {
-                    $("#customerId").append(`<option value="${c.id}">${c.name}</option>`);
+        function getAllCustomers() {
+            $.get('http://localhost:8080/api/v1/customer', function (data) {
+                data.forEach(c => {
+                    $('#customerId').append(`<option value="${c.id}">${c.name}</option>`);
                 });
             });
         }
 
-        function loadItems() {
-            $.get("http://localhost:8080/api/v1/item", function (items) {
-                itemList = items;
+        function getAllItems() {
+            $.get('http://localhost:8080/api/v1/item', function (data) {
+                itemList = data;
             });
         }
 
         function generateRow() {
-            const options = itemList.map(function (item) {
-                return `<option value="${item.id}">${item.description}</option>`;
-            }).join("");
-
+            const options = itemList.map(i => `<option value="${i.id}">${i.description}</option>`).join('');
             return `
                 <tr>
                     <td><select class="form-select itemSelect">${options}</select></td>
@@ -173,45 +174,41 @@
         }
 
         function updateTotals() {
-            let grandTotal = 0;
-
-            $("#orderItems tr").each(function () {
-                const qty = parseInt($(this).find(".quantity").val()) || 0;
-                const price = parseFloat($(this).find(".unitPrice").val()) || 0;
-                const total = qty * price;
-
-                $(this).find(".total").text(total.toFixed(2));
-                grandTotal += total;
+            let total = 0;
+            $('#orderItems tr').each(function () {
+                const qty = parseInt($(this).find('.quantity').val()) || 0;
+                const price = parseFloat($(this).find('.unitPrice').val()) || 0;
+                const rowTotal = qty * price;
+                $(this).find('.total').text(rowTotal.toFixed(2));
+                total += rowTotal;
             });
-
-            $("#grandTotal").text(grandTotal.toFixed(2));
+            $('#grandTotal').text(total.toFixed(2));
         }
 
-        function successNotification(message) {
+        function setTodayDate() {
+            const today = new Date().toISOString().split('T')[0];
+            $('#orderDate').val(today);
+        }
+
+        function successNotification(msg) {
             Swal.fire({
-                text: message,
                 icon: 'success',
-                background: '#d4edda',
-                color: '#155724',
-                confirmButtonColor: '#28a745',
-                timer: 5000,
-                timerProgressBar: true,
+                title: msg,
+                toast: true,
                 position: 'top-end',
-                toast: true
+                showConfirmButton: false,
+                timer: 3000
             });
         }
 
-        function errorNotification(message) {
+        function errorNotification(msg) {
             Swal.fire({
-                text: message,
                 icon: 'error',
-                background: '#f8d7da',
-                color: '#721c24',
-                confirmButtonColor: '#dc3545',
-                timer: 5000,
-                timerProgressBar: true,
+                title: msg,
+                toast: true,
                 position: 'top-end',
-                toast: true
+                showConfirmButton: false,
+                timer: 3000
             });
         }
     });
