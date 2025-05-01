@@ -8,6 +8,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
@@ -22,5 +25,13 @@ public class CustomerServiceImpl implements CustomerService {
         Customer customer = modelMapper.map(dto, Customer.class);
         Customer savedData = customerRepository.save(customer);
         return modelMapper.map(savedData, CustomerDTO.class);
+    }
+
+    @Override
+    public List<CustomerDTO> getAll() {
+        List<Customer> customers = customerRepository.findAll();
+        return customers.stream()
+                .map(customer -> modelMapper.map(customer, CustomerDTO.class))
+                .collect(Collectors.toList());
     }
 }
