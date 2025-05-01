@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @RestController
-@RequestMapping("api/v1/item")
+@RequestMapping("/api/v1/item")
 public class ItemController {
 
     @Autowired
