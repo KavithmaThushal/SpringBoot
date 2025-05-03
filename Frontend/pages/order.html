@@ -85,37 +85,38 @@
 
         $('#addItemBtn').click(function () {
             const row = $('<tr>');
-            const itemSelect = $('<select class="form-select item-select" required></select>');
-            itemSelect.append(`<option disabled selected>Select</option>`);
-            itemList.forEach(item => {
-                itemSelect.append(`<option value="${item.id}" data-price="${item.unitPrice}">${item.description}</option>`);
+
+            const item = $('<select class="form-select item" required></select>');
+            item.append(`<option disabled selected>Select</option>`);
+            itemList.forEach(itm => {
+                item.append(`<option value="${itm.id}" data-price="${itm.unitPrice}">${itm.description}</option>`);
             });
 
-            const qtyInput = $('<input type="number" min="1" class="form-control item-qty" required>');
-            const priceInput = $('<input type="number" class="form-control item-price" step="0.01" readonly>');
-            const totalCell = $('<td class="item-total">0.00</td>');
-            const deleteBtn = $('<button type="button" class="btn btn-danger btn-sm">Remove</button>');
+            const quantity = $('<input type="number" class="form-control quantity" min="1" required>');
+            const unitPrice = $('<input type="number" class="form-control unit-price" step="0.01" readonly>');
+            const total = $('<input type="number" class="form-control total" value="0.00" readonly>');
 
+            const deleteBtn = $('<button type="button" class="btn btn-danger btn-sm">Remove</button>');
             deleteBtn.click(function () {
                 row.remove();
             });
 
-            itemSelect.change(function () {
-                const unitPrice = $(this).find(':selected').data('price');
-                priceInput.val(unitPrice);
-                qtyInput.trigger('input');
+            item.change(function () {
+                const price = $(this).find(':selected').data('price');
+                unitPrice.val(price.toFixed(2));
+                quantity.trigger('input');
             });
 
-            qtyInput.on('input', function () {
-                const qty = parseInt(qtyInput.val());
-                const price = parseFloat(priceInput.val());
-                totalCell.text((qty * price).toFixed(2));
+            quantity.on('input', function () {
+                const qty = parseInt(quantity.val()) || 0;
+                const price = parseFloat(unitPrice.val()) || 0.0;
+                total.val((qty * price).toFixed(2));
             });
 
-            row.append($('<td>').append(itemSelect));
-            row.append($('<td>').append(qtyInput));
-            row.append($('<td>').append(priceInput));
-            row.append(totalCell);
+            row.append($('<td>').append(item));
+            row.append($('<td>').append(quantity));
+            row.append($('<td>').append(unitPrice));
+            row.append($('<td>').append(total));
             row.append($('<td>').append(deleteBtn));
 
             $('#orderItems').append(row);
@@ -127,10 +128,10 @@
             const orderDetails = [];
 
             $('#orderItems tr').each(function () {
-                const itemId = $(this).find('.item-select').val();
-                const quantity = parseInt($(this).find('.item-qty').val());
-                const unitPrice = parseFloat($(this).find('.item-price').val());
-                const totalPrice = quantity * unitPrice;
+                const itemId = $(this).find('.item').val();
+                const quantity = parseInt($(this).find('.quantity').val());
+                const unitPrice = parseFloat($(this).find('.unit-price').val());
+                const totalPrice = parseFloat($(this).find('.total').val());
 
                 orderDetails.push({itemId, quantity, unitPrice, totalPrice});
             });
