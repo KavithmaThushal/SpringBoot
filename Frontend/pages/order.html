@@ -43,15 +43,17 @@
 
             <div class="d-flex justify-content-between align-items-end mb-3">
                 <div class="col-3">
-                    <label for="customer" class="form-label">Select Customer</label>
-                    <select id="customer" class="form-select" required></select>
+                    <label for="selectCustomer" class="form-label">Select Customer</label>
+                    <select id="selectCustomer" class="form-select" required>
+                        <option disabled selected>Select</option>
+                    </select>
                 </div>
                 <div>
                     <button type="button" class="btn btn-secondary" id="addItemBtn">Add Item</button>
                 </div>
             </div>
 
-            <table class="table table-bordered align-middle text-center">
+            <table class="table table-bordered align-middle text-center mb-4">
                 <thead class="table-dark">
                 <tr>
                     <th>Item</th>
@@ -75,14 +77,48 @@
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@latest"></script>
 <script>
-    let itemsList = [];
+    let itemList = [];
 
     $(document).ready(function () {
-        loadCustomers();
-        loadItems();
+        getAllCustomers();
+        getAllItems();
 
         $('#addItemBtn').click(function () {
-            addItemRow();
+            const row = $('<tr>');
+            const itemSelect = $('<select class="form-select item-select" required></select>');
+            itemSelect.append(`<option disabled selected>Select</option>`);
+            itemList.forEach(item => {
+                itemSelect.append(`<option value="${item.id}" data-price="${item.unitPrice}">${item.description}</option>`);
+            });
+
+            const qtyInput = $('<input type="number" min="1" class="form-control item-qty" required>');
+            const priceInput = $('<input type="number" class="form-control item-price" step="0.01" readonly>');
+            const totalCell = $('<td class="item-total">0.00</td>');
+            const deleteBtn = $('<button type="button" class="btn btn-danger btn-sm">Remove</button>');
+
+            deleteBtn.click(function () {
+                row.remove();
+            });
+
+            itemSelect.change(function () {
+                const unitPrice = $(this).find(':selected').data('price');
+                priceInput.val(unitPrice);
+                qtyInput.trigger('input');
+            });
+
+            qtyInput.on('input', function () {
+                const qty = parseInt(qtyInput.val());
+                const price = parseFloat(priceInput.val());
+                totalCell.text((qty * price).toFixed(2));
+            });
+
+            row.append($('<td>').append(itemSelect));
+            row.append($('<td>').append(qtyInput));
+            row.append($('<td>').append(priceInput));
+            row.append(totalCell);
+            row.append($('<td>').append(deleteBtn));
+
+            $('#orderItems').append(row);
         });
 
         $('#orderForm').submit(function (e) {
@@ -122,56 +158,18 @@
         });
     });
 
-    function loadCustomers() {
+    function getAllCustomers() {
         $.get("http://localhost:8080/api/v1/customer", function (response) {
             response.data.forEach(customer => {
-                $('#customer').append(`<option value="${customer.id}">${customer.name}</option>`);
+                $('#selectCustomer').append(`<option value="${customer.id}">${customer.name}</option>`);
             });
         });
     }
 
-    function loadItems() {
+    function getAllItems() {
         $.get("http://localhost:8080/api/v1/item", function (response) {
-            itemsList = response.data;
+            itemList = response.data;
         });
-    }
-
-    function addItemRow() {
-        const row = $('<tr>');
-        const itemSelect = $('<select class="form-select item-select" required></select>');
-        itemSelect.append(`<option disabled selected>Select</option>`);
-        itemsList.forEach(item => {
-            itemSelect.append(`<option value="${item.id}" data-price="${item.unitPrice}">${item.description}</option>`);
-        });
-
-        const qtyInput = $('<input type="number" min="1" class="form-control item-qty" required>');
-        const priceInput = $('<input type="number" class="form-control item-price" step="0.01" readonly>');
-        const totalCell = $('<td class="item-total">0.00</td>');
-        const deleteBtn = $('<button type="button" class="btn btn-danger btn-sm">Remove</button>');
-
-        deleteBtn.click(function () {
-            row.remove();
-        });
-
-        itemSelect.change(function () {
-            const unitPrice = $(this).find(':selected').data('price');
-            priceInput.val(unitPrice);
-            qtyInput.trigger('input');
-        });
-
-        qtyInput.on('input', function () {
-            const qty = parseInt(qtyInput.val());
-            const price = parseFloat(priceInput.val());
-            totalCell.text((qty * price).toFixed(2));
-        });
-
-        row.append($('<td>').append(itemSelect));
-        row.append($('<td>').append(qtyInput));
-        row.append($('<td>').append(priceInput));
-        row.append(totalCell);
-        row.append($('<td>').append(deleteBtn));
-
-        $('#orderItems').append(row);
     }
 
     function successNotification(message) {
