@@ -8,7 +8,7 @@ public interface ItemService {
 
     ItemDTO add(ItemDTO dto);
 
-    ItemDTO getById(Integer id);
-
     List<ItemDTO> getAll();
+
+    ItemDTO getById(Integer id);
 }

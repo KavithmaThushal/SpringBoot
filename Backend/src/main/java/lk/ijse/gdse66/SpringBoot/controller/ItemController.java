@@ -23,15 +23,15 @@ public class ItemController {
         return new ResponseUtil("Item added successfully!", data);
     }
 
-    @GetMapping("/{id}")
-    public ResponseUtil getById(@PathVariable Integer id) {
-        ItemDTO data = itemService.getById(id);
-        return new ResponseUtil("Item fetched successfully!", data);
-    }
-
     @GetMapping
     public ResponseUtil getAll() {
         List<ItemDTO> data = itemService.getAll();
         return new ResponseUtil("Get all items successfully!", data);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseUtil getById(@PathVariable Integer id) {
+        ItemDTO data = itemService.getById(id);
+        return new ResponseUtil("Item fetched successfully!", data);
     }
 }

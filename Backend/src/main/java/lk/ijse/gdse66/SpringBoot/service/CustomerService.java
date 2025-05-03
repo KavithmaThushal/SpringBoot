@@ -8,7 +8,7 @@ public interface CustomerService {
 
     CustomerDTO save(CustomerDTO dto);
 
-    CustomerDTO getById(Integer id);
-
     List<CustomerDTO> getAll();
+
+    CustomerDTO getById(Integer id);
 }

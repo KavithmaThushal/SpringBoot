@@ -28,17 +28,17 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerDTO getById(Integer id) {
-        Customer customer = customerRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Customer not found with ID: " + id));
-        return modelMapper.map(customer, CustomerDTO.class);
-    }
-
-    @Override
     public List<CustomerDTO> getAll() {
         List<Customer> customers = customerRepository.findAll();
         return customers.stream()
                 .map(customer -> modelMapper.map(customer, CustomerDTO.class))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public CustomerDTO getById(Integer id) {
+        Customer customer = customerRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Customer not found with ID: " + id));
+        return modelMapper.map(customer, CustomerDTO.class);
     }
 }

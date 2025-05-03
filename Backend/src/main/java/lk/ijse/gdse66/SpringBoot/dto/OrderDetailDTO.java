@@ -12,6 +12,6 @@ public class OrderDetailDTO {
     private int itemId;
     private int quantity;
     private double unitPrice;
-    private double totalPrice;
+    private double total;
     private int orderId;
 }

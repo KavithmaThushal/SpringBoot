@@ -60,7 +60,7 @@ public class OrderServiceImpl implements OrderService {
             orderDetail.setItem(item);
             orderDetail.setQuantity(items.getQuantity());
             orderDetail.setUnitPrice(items.getUnitPrice());
-            orderDetail.setTotalPrice(items.getTotalPrice());
+            orderDetail.setTotal(items.getTotal());
             orderDetail.setOrder(order);
 
             orderDetailList.add(orderDetail);

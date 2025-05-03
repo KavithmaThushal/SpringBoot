@@ -23,7 +23,7 @@ public class OrderDetail {
 
     private int quantity;
     private double unitPrice;
-    private double totalPrice;
+    private double total;
 
     @ManyToOne
     @NotNull
