@@ -147,12 +147,12 @@
                 contentType: "application/json",
                 data: JSON.stringify(orderData),
                 success: function (response) {
-                    successNotification("Order placed successfully!");
+                    successNotification(response.message);
                     $('#orderForm')[0].reset();
                     $('#orderItems').empty();
                 },
-                error: function (xhr) {
-                    errorNotification(xhr.responseJSON?.message || "Something went wrong");
+                error: function (error) {
+                    errorNotification(error.responseJSON.message);
                 }
             });
         });
